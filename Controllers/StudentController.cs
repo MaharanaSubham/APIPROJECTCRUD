@@ -3,10 +3,13 @@ using APICRUD.DbContext;
 using APICRUD.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace APICRUD.Controllers
 {
     // This will goes to like --> Localhost:xxxx/api/student
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class StudentController : ControllerBase
@@ -69,6 +72,7 @@ namespace APICRUD.Controllers
             return Ok(findStudent);
         }
         // Now This will Be for the Delete Method 
+       
         [HttpDelete]
         [Route("{id:guid}")]  // Make sure the route id is same as parameter id
         public IActionResult DeleteStudentbyId(Guid id)
