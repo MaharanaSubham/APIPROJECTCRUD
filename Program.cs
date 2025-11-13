@@ -30,10 +30,15 @@ builder.Services.AddSwaggerGen();
 
 // HERE we will add Core for that Backend and Frontend connection Coz Both are different Port Numbers and running on different servers
 //  CORS  I have to  learn more about this CORS
+// Cors has 3 main options to configure like AllowAnyOrigin, AllowAnyMethod, AllowAnyHeader  cors only give acces to the 
+// browser to make request for backend api from different server or port number but we can check the backend api directly in postman 
+// It doesn't provide security like API authentication it can give access to single port number  but anyone can access the api directly using postman or other tools
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", policy =>
-        policy.AllowAnyOrigin()
+    options.AddPolicy("AllowSpecificPort", policy =>
+        policy.WithOrigins("https://subham-project-apicrud.netlify.app") // Replace with the specific port number of your frontend application
+                               // If we give access to multiple port then we can use .WithOrigins("http://localhost:3000", "http://localhost:4200")
+                               // We can write it with comma separated values
               .AllowAnyMethod()
               .AllowAnyHeader());
 });
@@ -71,7 +76,7 @@ if (app.Environment.IsDevelopment())
 }
 app.UseHttpsRedirection();
 // Enable CORS middleware
-app.UseCors("AllowAll");
+app.UseCors("AllowSpecificPort");
 app.UseAuthentication(); // Must be added before UseAuthorization
 
 app.UseAuthorization();
